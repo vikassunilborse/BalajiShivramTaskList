@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  color: #1f2937;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    margin: 0.2rem 0 0.5rem;
+    font-size: clamp(1.8rem, 2vw, 2.5rem);
+    line-height: 1.2;
+    color: #111827;
+  }
+}
+
+.subtitle {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.98rem;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

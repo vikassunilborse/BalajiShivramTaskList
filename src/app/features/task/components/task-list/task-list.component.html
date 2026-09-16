@@ -1,0 +1,99 @@
+<section class="header-section">
+    <div class="page-header">
+        <div>
+            <h1>Task dashboard</h1>
+            <p class="subtitle">Track progress and stay on top of your work.</p>
+        </div>
+        <button type="button" class="create-task-btn" (click)="createTask()">Create Task</button>
+    </div>
+
+    <div class="summary-cards">
+
+        <article class="summary-card total">
+            <span class="card-label">Total tasks</span>
+            <strong>{{ getTaskByStatus(taskStatus.ALL) }}</strong>
+        </article>
+        <article class="summary-card todo">
+            <span class="card-label">TODO</span>
+            <strong>{{ getTaskByStatus(taskStatus.TODO) }}</strong>
+        </article>
+        <article class="summary-card completed">
+            <span class="card-label">Completed</span>
+            <strong>{{ getTaskByStatus(taskStatus.COMPLETED) }}</strong>
+        </article>
+        <article class="summary-card progress">
+            <span class="card-label">In-progress</span>
+            <strong>{{ getTaskByStatus(taskStatus.IN_PROGRESS) }}</strong>
+        </article>
+        <article class="summary-card overdue">
+            <span class="card-label">Overdue</span>
+            <strong>{{ getTaskByStatus(taskStatus.OVERDUE) }}</strong>
+        </article>
+    </div>
+
+    <section class="task-panel">
+        <div class="panel-toolbar">
+            <div class="filters">
+                <label class="search-box">
+                    <span class="sr-only">Search tasks</span>
+                    <input type="search" placeholder="Search tasks..." [(ngModel)]="searchTerm"
+                        (ngModelChange)="onFilterChange($event)">
+                </label>
+                <select aria-label="Filter by status" [(ngModel)]="selectedStatus"
+                    (ngModelChange)="getFilteredTaskListByStatus($event)">
+                    <option [value]="taskStatus.ALL">Select statuses</option>
+                    <option [value]="taskStatus.TODO">Todo</option>
+                    <option [value]="taskStatus.COMPLETED">Completed</option>
+                    <option [value]="taskStatus.IN_PROGRESS">In-progress</option>
+                    <option [value]="taskStatus.OVERDUE">Overdue</option>
+                </select>
+                <select aria-label="Filter by priority" [(ngModel)]="selectedPriority"
+                    (ngModelChange)="getFilteredTaskListByPriority($event)">
+                    <option [value]="taskPriority.ALL">Select priority</option>
+                    <option [value]="taskPriority.LOW">Low</option>
+                    <option [value]="taskPriority.MEDIUM">Medium</option>
+                    <option [value]="taskPriority.HIGH">High</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>status</th>
+                        <th>Priority</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="filteredTaskList.length > 0">
+                        <tr *ngFor="let task of filteredTaskList; trackBy: trackByTaskId">
+                            <td><strong>{{ task.title }}</strong></td>
+                            <td>{{ task.status }}</td>
+                            <td>{{ task.priority }}</td>
+                            <td>{{ task.description }}</td>
+                            <td>{{ task.dueDate }}</td>
+                            <td>
+                                <button type="button" class="edit-btn" aria-label="Edit task" title="Edit task"
+                                    (click)="editTask(task.id)">
+                                    <mat-icon aria-hidden="true">edit</mat-icon>
+                                </button>
+                                <button type="button" class="delete-btn" aria-label="Delete task" title="Delete task"
+                                    (click)="deleteTask(task.id)">
+                                    <mat-icon aria-hidden="true">delete</mat-icon>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <tr *ngIf="filteredTaskList.length === 0">
+                        <td colspan="6" class="empty-state">No tasks found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
